@@ -27,23 +27,35 @@ public class FunctionIdentification : MonoBehaviour {
 
 		GetComponent<KMNeedyModule>().OnNeedyActivation += OnNeedyActivation;
         GetComponent<KMNeedyModule>().OnNeedyDeactivation += OnNeedyDeactivation;
-        functionButton.OnInteract += Function;
+        functionButton.OnInteract += delegate() { Function(); return false; };
 		rightButton.OnInteract += Right;
 		leftButton.OnInteract += Left;
         GetComponent<KMNeedyModule>().OnTimerExpired += OnTimerExpired;
+
+		chosenFunction = functions[Random.Range(0, functions.Length)];
 	}
 
 	private bool Function() {
 		if(chosenFunction.name.Contains(label.GetComponent<TextMesh>().text)) {
-			GetComponent<KMNeedyModule>().OnPass();
+			Debug.LogFormat("[Function Identification #{0}] Successfully disarmed Function Identification!", moduleId);
 			ClearDisplay();
-			Debug.LogFormat("[Function Indentification #{0}] Successfully disarmed Function Identification!", moduleId);
+			GetComponent<KMNeedyModule>().OnPass();
 		} else {
 			GetComponent<KMNeedyModule>().OnStrike();
-			Debug.LogFormat("[Function Identification #{0}] Incorrect! Pressed: {1}, expected {2}", moduleId, label.GetComponent<TextMesh>().text, chosenFunction.name.Remove(chosenFunction.name.Length - 1));
+			Debug.LogFormat("[Function Identification #{0}] Incorrect! Pressed: {1}, expected {2}", moduleId, label.GetComponent<TextMesh>().text, RemoveNumber());
 		}
 
 		return false;
+	}
+
+	private string RemoveNumber() {
+		chosenFunction.name.Remove(chosenFunction.name.Length - 1);
+
+		if(chosenFunction.name[chosenFunction.name.Length] == 1) {
+			chosenFunction.name.Remove(chosenFunction.name.Length - 1);
+		}
+
+		return chosenFunction.name;
 	}
 
 	private bool Right() {
@@ -78,7 +90,7 @@ public class FunctionIdentification : MonoBehaviour {
 		screen.GetComponent<MeshRenderer>().material = chosenFunction;
 		label.GetComponent<TextMesh>().text = functionTypes[index];
 
-		Debug.LogFormat("[Function Identification #{0}] Generated function type: {1}", moduleId, chosenFunction.name.Remove(chosenFunction.name.Length - 1));
+		Debug.LogFormat("[Function Identification #{0}] Generated function type: {1}", moduleId, RemoveNumber());
 	}
 
 	// default functions
