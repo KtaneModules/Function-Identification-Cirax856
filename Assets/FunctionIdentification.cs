@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FunctionIdentification : MonoBehaviour {
+	public KMAudio audio;
+
 	public KMSelectable functionButton;
 	public KMSelectable rightButton;
 	public KMSelectable leftButton;
@@ -38,10 +40,12 @@ public class FunctionIdentification : MonoBehaviour {
 	private bool Function() {
 		if(chosenFunction.name.Contains(label.GetComponent<TextMesh>().text)) {
 			Debug.LogFormat("[Function Identification #{0}] Successfully disarmed Function Identification!", moduleId);
+			audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, functionButton.transform);
 			ClearDisplay();
 			GetComponent<KMNeedyModule>().OnPass();
 		} else {
 			GetComponent<KMNeedyModule>().OnStrike();
+			audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, functionButton.transform);
 			Debug.LogFormat("[Function Identification #{0}] Incorrect! Pressed: {1}, expected {2}", moduleId, label.GetComponent<TextMesh>().text, RemoveNumber());
 		}
 
@@ -66,6 +70,8 @@ public class FunctionIdentification : MonoBehaviour {
 
 		label.GetComponent<TextMesh>().text = functionTypes[index];
 
+		audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, rightButton.transform);
+
 		return false;
 	}
 
@@ -76,6 +82,8 @@ public class FunctionIdentification : MonoBehaviour {
 		}
 
 		label.GetComponent<TextMesh>().text = functionTypes[index];
+
+		audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, leftButton.transform);
 
 		return false;
 	}

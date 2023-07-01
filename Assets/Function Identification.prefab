@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 114503614693257652}
   - component: {fileID: 95807330623990626}
   - component: {fileID: 114825398376494314}
+  - component: {fileID: 114816019053605474}
   m_Layer: 0
   m_Name: Function Identification
   m_TagString: Untagged
@@ -1061,6 +1062,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HighlightScale: {x: 1, y: 1, z: 1}
   OutlineAmount: 0
+--- !u!114 &114816019053605474
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1477168158966278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1675560866, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114825398376494314
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1072,6 +1084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb9fe7df24d0c164899ed4e946b0b5ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audio: {fileID: 114816019053605474}
   functionButton: {fileID: 114953685396064264}
   rightButton: {fileID: 114198820806575708}
   leftButton: {fileID: 114321598989431378}
