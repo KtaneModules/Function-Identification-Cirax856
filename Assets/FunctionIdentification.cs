@@ -49,10 +49,10 @@ public class FunctionIdentification : MonoBehaviour {
 	}
 
 	private string RemoveNumber() {
-		chosenFunction.name.Remove(chosenFunction.name.Length - 1);
+		chosenFunction.name = chosenFunction.name.Remove(chosenFunction.name.Length - 1);
 
-		if(chosenFunction.name[chosenFunction.name.Length] == 1) {
-			chosenFunction.name.Remove(chosenFunction.name.Length - 1);
+		if(chosenFunction.name[chosenFunction.name.Length - 1] == 1) {
+			chosenFunction.name = chosenFunction.name.Remove(chosenFunction.name.Length - 1);
 		}
 
 		return chosenFunction.name;
@@ -106,4 +106,21 @@ public class FunctionIdentification : MonoBehaviour {
         GetComponent<KMNeedyModule>().OnStrike();
 		ClearDisplay();
     }
+
+	private readonly string TwitchHelpMessage = "Cycle left or right using the commands \"!{0} left\" and \"${0} right\". Submit your answer with \"!${0} submit\"";
+
+	private IEnumerator ProcessTwitchCommand(string command) {
+		command = command.ToLowerInvariant();
+
+		if(command.Equals("right")) {
+			yield return null;
+			Right();
+		} else if(command.Equals("left")) {
+			yield return null;
+			Left();
+		} else if(command.Equals("submit")) {
+			yield return null;
+			Function();
+		}
+	}
 }
