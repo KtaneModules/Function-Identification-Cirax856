@@ -908,7 +908,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Standard
+  - KT/Mobile/DiffuseTint
 --- !u!114 &114198820806575708
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -943,7 +943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Standard
+  - KT/Mobile/DiffuseTint
 --- !u!114 &114269223700334248
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -956,7 +956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Standard
+  - KT/Mobile/DiffuseTint
 --- !u!114 &114293470312604470
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -969,7 +969,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Standard
+  - KT/Mobile/DiffuseTint
 --- !u!114 &114321598989431378
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1166,7 +1166,7 @@ MonoBehaviour:
   - quadratic
   - cubic
   - goniometric
-  - exponencial
+  - exponential
   - logarithmic
   index: 0
   chosenFunction: {fileID: 0}

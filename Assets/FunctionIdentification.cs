@@ -18,7 +18,13 @@ public class FunctionIdentification : MonoBehaviour {
 
 	public Material chosenFunction;
 
+	// logging
+	static int moduleIdCounter = 1;
+	int moduleId;
+
 	void Awake() {
+		moduleId = moduleIdCounter++;
+
 		GetComponent<KMNeedyModule>().OnNeedyActivation += OnNeedyActivation;
         GetComponent<KMNeedyModule>().OnNeedyDeactivation += OnNeedyDeactivation;
         functionButton.OnInteract += Function;
@@ -30,9 +36,11 @@ public class FunctionIdentification : MonoBehaviour {
 	private bool Function() {
 		if(chosenFunction.name.Contains(label.GetComponent<TextMesh>().text)) {
 			GetComponent<KMNeedyModule>().OnPass();
-			screen.GetComponent<MeshRenderer>().material = defaultMaterial;	
+			ClearDisplay();
+			Debug.LogFormat("[Function Indentification #{0}] Successfully disarmed Function Identification!", moduleId);
 		} else {
 			GetComponent<KMNeedyModule>().OnStrike();
+			Debug.LogFormat("[Function Identification #{0}] Incorrect! Pressed: {1}, expected {2}", moduleId, label.GetComponent<TextMesh>().text, chosenFunction.name.Remove(chosenFunction.name.Length - 1));
 		}
 
 		return false;
@@ -60,11 +68,17 @@ public class FunctionIdentification : MonoBehaviour {
 		return false;
 	}
 
+	private void ClearDisplay() {
+		screen.GetComponent<MeshRenderer>().material = defaultMaterial;
+	}
+
 	private void GenerateFunction() {
 		chosenFunction = functions[Random.Range(0, functions.Length)];
 
 		screen.GetComponent<MeshRenderer>().material = chosenFunction;
 		label.GetComponent<TextMesh>().text = functionTypes[index];
+
+		Debug.LogFormat("[Function Identification #{0}] Generated function type: {1}", moduleId, chosenFunction.name.Remove(chosenFunction.name.Length - 1));
 	}
 
 	// default functions
@@ -73,10 +87,11 @@ public class FunctionIdentification : MonoBehaviour {
 	}
 
     protected void OnNeedyDeactivation() {
-		screen.GetComponent<MeshRenderer>().material = defaultMaterial;
+		ClearDisplay();
 	}
 
     protected void OnTimerExpired() {
         GetComponent<KMNeedyModule>().OnStrike();
+		ClearDisplay();
     }
 }
