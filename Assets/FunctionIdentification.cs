@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FunctionIdentification : MonoBehaviour {
+#pragma warning disable CS0108
 	public KMAudio audio;
+#pragma warning restore CS0108
 
 	public KMSelectable functionButton;
 	public KMSelectable rightButton;
@@ -15,6 +17,7 @@ public class FunctionIdentification : MonoBehaviour {
 	public Material defaultMaterial;
 
 	public Material[] functions;
+	public string functionName;
 	public string[] functionTypes = {"linear", "constant", "reciprocal", "quadratic", "cubic", "goniometric", "exponential", "logarithmic"};
 	public int index = 0;
 
@@ -35,10 +38,11 @@ public class FunctionIdentification : MonoBehaviour {
         GetComponent<KMNeedyModule>().OnTimerExpired += OnTimerExpired;
 
 		chosenFunction = functions[Random.Range(0, functions.Length)];
+		functionName = chosenFunction.name;
 	}
 
 	private bool Function() {
-		if(chosenFunction.name.Contains(label.GetComponent<TextMesh>().text)) {
+		if(functionName.Contains(label.GetComponent<TextMesh>().text)) {
 			Debug.LogFormat("[Function Identification #{0}] Successfully disarmed Function Identification!", moduleId);
 			audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, functionButton.transform);
 			ClearDisplay();
@@ -46,20 +50,20 @@ public class FunctionIdentification : MonoBehaviour {
 		} else {
 			GetComponent<KMNeedyModule>().OnStrike();
 			audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, functionButton.transform);
-			Debug.LogFormat("[Function Identification #{0}] Incorrect! Pressed: {1}, expected {2}", moduleId, label.GetComponent<TextMesh>().text, RemoveNumber());
+			Debug.LogFormat("[Function Identification #{0}] Incorrect! Pressed: {1}, expected {2}", moduleId, label.GetComponent<TextMesh>().text, functionName);
 		}
 
 		return false;
 	}
 
 	private string RemoveNumber() {
-		chosenFunction.name = chosenFunction.name.Remove(chosenFunction.name.Length - 1);
+		functionName = functionName.Remove(functionName.Length - 1);
 
-		if(chosenFunction.name[chosenFunction.name.Length - 1] == 1) {
-			chosenFunction.name = chosenFunction.name.Remove(chosenFunction.name.Length - 1);
+		if(functionName[functionName.Length - 1] == '1') {
+			functionName = functionName.Remove(functionName.Length - 1);
 		}
 
-		return chosenFunction.name;
+		return functionName;
 	}
 
 	private bool Right() {
@@ -94,6 +98,7 @@ public class FunctionIdentification : MonoBehaviour {
 
 	private void GenerateFunction() {
 		chosenFunction = functions[Random.Range(0, functions.Length)];
+		functionName = chosenFunction.name;
 
 		screen.GetComponent<MeshRenderer>().material = chosenFunction;
 		label.GetComponent<TextMesh>().text = functionTypes[index];
@@ -115,7 +120,9 @@ public class FunctionIdentification : MonoBehaviour {
 		ClearDisplay();
     }
 
+#pragma warning disable CS0414
 	private readonly string TwitchHelpMessage = "Cycle left or right using the commands \"!{0} left\" and \"${0} right\". Submit your answer with \"!${0} submit\"";
+#pragma warning restore CS0414
 
 	private IEnumerator ProcessTwitchCommand(string command) {
 		command = command.ToLowerInvariant();
